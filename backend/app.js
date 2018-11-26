@@ -19,7 +19,6 @@ mongoose.connect(
   useNewUrlParser: true }
  )
  .then(response => {
-  // console.log(response);
   console.log('connected to db')
   })
  .catch( (err) =>{
@@ -48,5 +47,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/todos', todosRouter );
+
+
 
 module.exports = app;

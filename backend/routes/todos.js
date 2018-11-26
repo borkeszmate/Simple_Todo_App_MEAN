@@ -1,15 +1,44 @@
 const express = require("express");
 const todoSchema = require('../models/todo');
+const multer = require("multer");
+const path = require('path');
 
 const router = express.Router();
 
+const storage = multer.diskStorage({
+ destination: (req, file, cb) => {
+  //  console.log(file.mimetype);
+  cb(null, './img');
+ },
+ filename: (req, file, cb) => {
+   cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+ }
+});
+
+const upload = multer({
+  storage: storage,
+
+  fileFilter: (req, file, cb) => {
+    const allowedFiles = /png|jpg|jpeg/;
+    const mimeType = allowedFiles.test(file.mimetype);
+    const extentionName = allowedFiles.test(path.extname(file.originalname));
+
+    if (mimeType && extentionName) {
+      return cb(null, true);
+    }
+    cb(`Error ${file.mimetype} is not supperted file type. Please select from the following filetypes: JPG/JPEG/PNG`);
+    
+ }, 
+   })
+   .single('image')
 
 // Posting data to MongoDB with Mongoose
-router.post('', (req, res, next) => {
-  
+router.post('', upload, (req, res, next) => {
+
  const todo = new todoSchema({
    todoTitle: req.body.todoTitle
   });
+
 
   todo.save()
   .then(savedTodo => {
@@ -17,9 +46,27 @@ router.post('', (req, res, next) => {
     id: savedTodo.id,
     todoTitle: savedTodo.todoTitle
    });
-  }); 
+  });
+
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log(err);
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log(err);
+    }
+
+    // Everything went fine.
+    console.log('Feltöltve!');
+  })
 
 });
+
+
+
+
 
 // Getting data from MongoDB with Mongoose
 router.get('', (req, res, next) => {
@@ -40,6 +87,9 @@ todoSchema.find()
   );
 
 });
+
+
+
 
 
 // Deleting data from MongoDB with Mongoose

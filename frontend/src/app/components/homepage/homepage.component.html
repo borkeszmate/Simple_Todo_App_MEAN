@@ -2,11 +2,25 @@
   
   <!-- Add todo form -->
    
-    <form [formGroup]="todoForm"  >
-     <mat-form-field>
+    <form [formGroup]="todoForm" class="form" enctype="multipart/form-data" >
+     
+    <mat-form-field>
        <input matInput placeholder="Input" formControlName="todo">
-     </mat-form-field>
-     <button mat-raised-button color="primary" [disabled]="!todoForm.valid" (click)="todoSubmit()">Submit</button>
+    </mat-form-field>
+     
+     <button mat-raised-button color="accent" (click)="filePicker.click()">
+       Pick an image
+     </button>
+
+     <input class="form__file"   type="file" #filePicker (change)="imageAdded($event)">
+
+     <div class="form__img-preview" *ngIf="imgPreview !== undefined">
+       <img [src]='imgPreview' alt="">
+     </div>
+
+     <button class="form__submit" type="submit" mat-raised-button color="primary" [disabled]="!todoForm.valid" (click)="todoSubmit()">Submit
+     </button>
+
     </form>
 
 

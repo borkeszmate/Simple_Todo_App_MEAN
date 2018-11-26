@@ -12,7 +12,13 @@ export class TodoService {
 
   postToDB(todo: TodoInterFace) {
 
-    return this.http.post('http://localhost:3000/api/todos', todo);
+
+    const formData = new FormData();
+    formData.append('todoTitle', todo.todoTitle);
+    formData.append('image', todo.todoImg);
+    console.log(formData.get('image'));
+
+    return this.http.post('http://localhost:3000/api/todos', formData);
   }
 
   getFromDB() {
