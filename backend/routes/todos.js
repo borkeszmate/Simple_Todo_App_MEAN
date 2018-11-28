@@ -5,13 +5,17 @@ const path = require('path');
 
 const router = express.Router();
 
+
+
+// File upload configuration
 const storage = multer.diskStorage({
  destination: (req, file, cb) => {
   //  console.log(file.mimetype);
   cb(null, './img');
  },
  filename: (req, file, cb) => {
-   cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+   
+   cb(null, file.originalname + '-' + Date.now() + '.jpg');
  }
 });
 
@@ -32,19 +36,29 @@ const upload = multer({
    })
    .single('image')
 
+
+
+
+
+
+
 // Posting data to MongoDB with Mongoose
 router.post('', upload, (req, res, next) => {
-
- const todo = new todoSchema({
-   todoTitle: req.body.todoTitle
-  });
-
+  
+  const url = req.protocol + '://' + req.get('host');
+  
+  const todo = new todoSchema({
+    todoTitle: req.body.todoTitle,
+    imageUrl: url + '/img/' + req.file.filename
+    });
 
   todo.save()
   .then(savedTodo => {
+
    res.status(201).json({
     id: savedTodo.id,
-    todoTitle: savedTodo.todoTitle
+    todoTitle: savedTodo.todoTitle,
+    imageUrl: savedTodo.imageUrl
    });
   });
 
@@ -59,7 +73,7 @@ router.post('', upload, (req, res, next) => {
     }
 
     // Everything went fine.
-    console.log('Feltöltve!');
+    // console.log('Feltöltve!');
   })
 
 });
@@ -68,9 +82,11 @@ router.post('', upload, (req, res, next) => {
 
 
 
+
+
 // Getting data from MongoDB with Mongoose
 router.get('', (req, res, next) => {
-
+console.log(path.join('backend/img'));
 todoSchema.find()
  .then(response => {
   res.status(201);
@@ -78,7 +94,8 @@ todoSchema.find()
   res.send(response.map(todo => {
    return {
     id : todo._id,
-    todoTitle : todo.todoTitle
+    todoTitle : todo.todoTitle,
+     imageUrl: todo.imageUrl
    } 
   }));
  }
@@ -87,6 +104,8 @@ todoSchema.find()
   );
 
 });
+
+
 
 
 

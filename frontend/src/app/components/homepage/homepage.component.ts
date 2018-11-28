@@ -52,6 +52,7 @@ export class HomepageComponent implements OnInit {
   getTodos() {
     this.todoService.getFromDB().subscribe(response => {
       this.todos = response;
+      console.log(this.todos);
 
     });
   }
