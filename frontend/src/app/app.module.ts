@@ -9,6 +9,7 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 // Components
@@ -29,7 +30,8 @@ import { HomepageComponent } from './components/homepage/homepage.component';
     MatInputModule,
     MatCardModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatExpansionModule
 
   ],
   providers: [],

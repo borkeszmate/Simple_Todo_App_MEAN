@@ -66,3 +66,25 @@
     }
   }
 }
+mat-expansion-panel{
+  margin: 2rem 0;
+}
+.card-expanded{
+  text-align: center;
+  &__icon{
+    text-align: right;
+    // background-color: red;
+    display: block;
+    cursor: pointer;
+    i{
+      margin: 1rem;
+      font-size: 4rem;
+    }
+  }
+  img{
+    // width: 100%;
+    margin: 1rem 0;
+    width: 75%;
+    border-radius: 12px;
+  }
+}

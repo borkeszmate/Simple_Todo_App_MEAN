@@ -23,7 +23,7 @@ const upload = multer({
   storage: storage,
 
   fileFilter: (req, file, cb) => {
-    const allowedFiles = /png|jpg|jpeg/;
+    const allowedFiles = /png|jpg|jpeg/i;
     const mimeType = allowedFiles.test(file.mimetype);
     const extentionName = allowedFiles.test(path.extname(file.originalname));
 
@@ -86,7 +86,7 @@ router.post('', upload, (req, res, next) => {
 
 // Getting data from MongoDB with Mongoose
 router.get('', (req, res, next) => {
-console.log(path.join('backend/img'));
+
 todoSchema.find()
  .then(response => {
   res.status(201);
