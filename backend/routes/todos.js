@@ -1,9 +1,10 @@
 const express = require("express");
 const todoSchema = require('../models/todo');
 const multer = require("multer");
-const path = require('path');
+const path = require("path");
 
 const router = express.Router();
+const fs = require("fs");
 
 
 
@@ -114,18 +115,33 @@ todoSchema.find()
 // Deleting data from MongoDB with Mongoose
 
 router.delete('/:id', (req, res, next) => {
- 
- todoSchema.deleteOne({
-  _id : req.params.id
- })
-  .then(response => {
-   res.status(201).json({
-    message : 'succesfully deleted!',
-    body: response
+//  First find the file in db and retrive img path. 
+  todoSchema.findOne({
+   _id: req.params.id
+ }).then(result => {
+  //  Extract img file name from image path
+   const imgPath = result.imageUrl 
+   const cut = imgPath.indexOf('img/');
+   const imgFileName = imgPath.substr(cut + 4, imgPath.length);
+  //  Remove file 
+   fs.unlink(`img/${imgFileName}`, (err) => console.log(err));
+
+  // Delete record from DB
+   todoSchema.deleteOne({
+    _id : req.params.id
    })
+    .then(response => {
+    //  Send back the response msg
+     res.status(201).json({
+      message : 'succesfully deleted!',
+      body: response
+     })
+    })
+    .catch(err => console.log(err))
   })
-  .catch(err => console.log(err))
-})
+
+ });
+
 
 
 module.exports = router;
