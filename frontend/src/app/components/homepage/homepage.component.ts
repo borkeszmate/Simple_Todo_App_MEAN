@@ -12,24 +12,30 @@ export class HomepageComponent implements OnInit {
 
   todoForm;
   todos;
-  
+
 
   todo = {
     id: '',
     todoTitle: '',
     todoImg: null
-    }
-  ;
+    };
 
   imgPreview;
+  todosLoaded = false;
+
+  paginator = {
+    previousPageIndex : 0,
+    pageIndex: 0,
+    pageSize : 2
+  };
+
+  todosTotalNum: number;
 
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
 // Get existing todos
   this.getTodos();
-  console.log(this.imgPreview);
-
 
 
 // Create form
@@ -51,9 +57,13 @@ export class HomepageComponent implements OnInit {
   }
 
   getTodos() {
-    this.todoService.getFromDB().subscribe(response => {
-      this.todos = response;
-      console.log(this.todos);
+    this.todoService.getFromDB(this.paginator).subscribe((response: any) => {
+      this.todos = response.documents;
+      this.todosTotalNum = response.totalNumTodos;
+      console.log(response);
+      if (this.todos.length > 0) {
+        this.todosLoaded = true;
+      }
 
     });
   }
@@ -85,6 +95,13 @@ export class HomepageComponent implements OnInit {
     };
     reader.readAsDataURL(file);
 
+  }
+
+  paginatorChanged(paginator) {
+    this.paginator.previousPageIndex = paginator.previousPageIndex;
+    this.paginator.pageIndex = paginator.pageIndex;
+    this.paginator.pageSize = paginator.pageSize;
+    this.getTodos();
   }
 
 }

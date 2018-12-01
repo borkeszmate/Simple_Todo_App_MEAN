@@ -44,7 +44,7 @@ const upload = multer({
 
 
 // Posting data to MongoDB with Mongoose
-router.post('', upload, (req, res, next) => {
+router.post('/posts', upload, (req, res, next) => {
   
   const url = req.protocol + '://' + req.get('host');
   
@@ -86,21 +86,36 @@ router.post('', upload, (req, res, next) => {
 
 
 // Getting data from MongoDB with Mongoose
-router.get('', (req, res, next) => {
+router.get('/posts', (req, res, next) => {
 
-todoSchema.find()
- .then(response => {
-  res.status(201);
 
-  res.send(response.map(todo => {
-   return {
-    id : todo._id,
-    todoTitle : todo.todoTitle,
-     imageUrl: todo.imageUrl
-   } 
-  }));
- }
- )
+  let docs;
+  
+  const previousPageIndex = req.query.previousPageIndex;
+  const pageIndex = +req.query.pageIndex;
+  const pageSize = +req.query.pageSize;
+  // console.log(pageSize);
+
+  const queryAll = todoSchema.find().skip(pageIndex * pageSize).limit(pageSize);
+
+
+
+  queryAll.then(documents => {
+    
+     docs = documents;
+     return todoSchema.countDocuments()
+    
+
+  }).then(count => {
+    res.status(201);
+    res.send({
+      mgs:'Posts are fetched!',
+      documents : docs,
+      totalNumTodos : count
+    })
+  })
+
+
   .catch(err => console.log(err)
   );
 
@@ -114,7 +129,7 @@ todoSchema.find()
 
 // Deleting data from MongoDB with Mongoose
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/posts/:id', (req, res, next) => {
 //  First find the file in db and retrive img path. 
   todoSchema.findOne({
    _id: req.params.id
@@ -124,7 +139,11 @@ router.delete('/:id', (req, res, next) => {
    const cut = imgPath.indexOf('img/');
    const imgFileName = imgPath.substr(cut + 4, imgPath.length);
   //  Remove file 
-   fs.unlink(`img/${imgFileName}`, (err) => console.log(err));
+   fs.unlink(`img/${imgFileName}`, (err) => {
+     if (err) {
+       console.log(err);
+     }
+   });
 
   // Delete record from DB
    todoSchema.deleteOne({
