@@ -74,11 +74,14 @@ export class HomepageComponent implements OnInit {
 
     this.todos.forEach((todo, index) => {
 
-      if (id === todo.id) {
+      if (id === todo._id) {
         this.todos.splice(index, 1);
       }
     });
   }
+
+
+
 
   imageAdded(event) {
     const file = event.target.files[0];
@@ -96,6 +99,9 @@ export class HomepageComponent implements OnInit {
     reader.readAsDataURL(file);
 
   }
+
+
+
 
   paginatorChanged(paginator) {
     this.paginator.previousPageIndex = paginator.previousPageIndex;

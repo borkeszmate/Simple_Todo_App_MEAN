@@ -1,0 +1,23 @@
+@import '../../../styles.scss';
+
+.row{
+ width: 75%;
+ 
+ margin: 5rem auto;
+ 
+ padding: 5rem 3rem;
+ 
+}
+
+
+ mat-form-field{
+  margin: 1rem 0;
+  width: 100%;
+  background-color: rgba($color: #000000, $alpha: .03);
+  padding: 1rem;
+  border-radius: 12px;
+  input{
+   font-size: 1.5rem;
+  }
+
+ }

@@ -129,8 +129,11 @@ router.get('/posts', (req, res, next) => {
 
 // Deleting data from MongoDB with Mongoose
 
+
 router.delete('/posts/:id', (req, res, next) => {
-//  First find the file in db and retrive img path. 
+  
+  //  First find the file in db and retrive img path. 
+  
   todoSchema.findOne({
    _id: req.params.id
  }).then(result => {
@@ -158,8 +161,9 @@ router.delete('/posts/:id', (req, res, next) => {
     })
     .catch(err => console.log(err))
   })
+  
+});
 
- });
 
 
 
