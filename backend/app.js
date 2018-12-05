@@ -4,10 +4,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 
-
-
+// Routers
 const todosRouter = require('./routes/todos');
-
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -33,7 +32,8 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/img',express.static('img'));
+
+app.use('/img', express.static('img'));
 
 app.use((req, res, next) => {
  res.setHeader("Access-Control-Allow-Origin", "*");
@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/todos', todosRouter );
+app.use('/api/user', userRouter);
 
 
 
