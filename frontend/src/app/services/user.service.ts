@@ -14,4 +14,10 @@ export class UserService {
   registerUser(user) {
     this.http.post(`${this.apiUrl}/api/user/register`, user).subscribe(response => console.log(response));
   }
+
+  loginUser(user) {
+    this.http.post(`${this.apiUrl}/api/user/login`, user).subscribe(response => {
+      console.log(response);
+    });
+  }
 }

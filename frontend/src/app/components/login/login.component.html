@@ -1,0 +1,23 @@
+
+<div class="row">
+  <h1>Hi, please sign in!</h1>
+  <div class="example-container">
+   
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+
+    <mat-form-field>
+      <input matInput placeholder="Email address" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password" type="password">
+    </mat-form-field>
+
+    <button class="form__submit" type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Sign in
+    </button>
+
+  </form>
+
+
+  </div>
+</div>
