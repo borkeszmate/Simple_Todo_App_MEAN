@@ -5,6 +5,7 @@ const path = require("path");
 
 const router = express.Router();
 const fs = require("fs");
+const authGuard = require('../middlewares/auth-middleware');
 
 
 
@@ -44,7 +45,7 @@ const upload = multer({
 
 
 // Posting data to MongoDB with Mongoose
-router.post('/posts', upload, (req, res, next) => {
+router.post('/posts', authGuard, upload, (req, res, next) => {
   
   const url = req.protocol + '://' + req.get('host');
   

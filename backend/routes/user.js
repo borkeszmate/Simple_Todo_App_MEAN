@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userSchema = require('../models/user');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -56,7 +57,7 @@ router.post('/register', (req, res, next) => {
        }
       })
       )
-      .catch(err => res.status(201).json(err));  
+      .catch(err => res.status(400).json(err));  
    }) 
   });
 
@@ -75,6 +76,15 @@ router.post('/login', (req, res, next) => {
     // console.log(user.password);
     if (bcrypt.compareSync(loginPassword, user.password)) {
      // Correct password
+      const token = jwt.sign({email: loginEmail}, 'Bud_Asz_1992');
+      res.status(202).json({
+        message: 'Succesfully logged in and token created!',
+        user: {
+          email: loginEmail,
+          token: token
+        }
+      })
+
     } else {
      // Password does not match
     };

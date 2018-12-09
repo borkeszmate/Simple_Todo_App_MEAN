@@ -4,9 +4,12 @@ import { HttpClient } from '@angular/common/http';
 // import { HomepageComponent } from '../components/homepage/homepage.component';
 import { TodoInterFace } from '../interfaces/todo';
 import { environment } from '../../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class TodoService {
 
   apiUrl = environment.http;
@@ -15,13 +18,20 @@ export class TodoService {
    }
 
   postToDB(todo: TodoInterFace) {
-
+    // Creating formdata in order to submit a file in the form
     const formData = new FormData();
     formData.append('todoTitle', todo.todoTitle);
     formData.append('image', todo.todoImg);
-    console.log(formData.get('image'));
 
-    return this.http.post(`${this.apiUrl}/api/todos/posts`, formData);
+    // Setting http header
+
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authtoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJvcmtlc3ptYXRlQGdtYWlsLmNvbSIsImlhdCI6MTU0NDM4NDQ1NCwiZXhwIjoxNTQ0Mzg4MDU0fQ.ZtNeRSzKAzOkqRRmHfaI5EFDwfQPfDDjc9NsI9j-b4k'
+      })
+    };
+    return this.http.post(`${this.apiUrl}/api/todos/posts`, formData, httpOptions);
   }
 
   getFromDB(paginator) {
