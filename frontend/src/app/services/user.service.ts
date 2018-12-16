@@ -25,9 +25,12 @@ export class UserService {
   }
 
   loginUser(user) {
-    this.http.post(`${this.apiUrl}/api/user/login`, user).subscribe(response => {
-      localStorage.setItem('MEAN_token', response.user.token);
-      this.router.navigate(['']);
+    this.http.post<any>(`${this.apiUrl}/api/user/login`, user).subscribe(response => {
+      console.log(response.message);
+      if (response.user) {
+        localStorage.setItem('MEAN_token', response.user.token);
+        this.router.navigate(['']);
+      }
     });
   }
 }
