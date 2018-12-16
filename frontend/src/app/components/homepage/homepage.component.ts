@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { TodoService} from '../../services/todo.service';
 import { TodoInterFace } from '../../interfaces/todo';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-homepage',
@@ -10,7 +11,7 @@ import { TodoInterFace } from '../../interfaces/todo';
 })
 export class HomepageComponent implements OnInit {
 
-  todoForm;
+  todoForm: FormGroup;
   todos;
 
 
@@ -31,7 +32,12 @@ export class HomepageComponent implements OnInit {
 
   todosTotalNum: number;
 
-  constructor(private todoService: TodoService) { }
+  isLoggedIn = true;
+
+  constructor(
+    private todoService: TodoService,
+    private userService: UserService
+    ) { }
 
   ngOnInit() {
 // Get existing todos
@@ -68,7 +74,7 @@ export class HomepageComponent implements OnInit {
     });
   }
 
-  deleteTodo(id) {
+  deleteTodo(id: string) {
     console.log(id);
     this.todoService.deleteFromDB(id);
 
@@ -108,6 +114,17 @@ export class HomepageComponent implements OnInit {
     this.paginator.pageIndex = paginator.pageIndex;
     this.paginator.pageSize = paginator.pageSize;
     this.getTodos();
+  }
+
+
+  logout() {
+    // if (this.userService.isAuthenticated()) {
+    //   console.log('aut');
+    // } else {
+    //   console.log('nem');
+
+    // }
+    this.userService.isAuthenticated();
   }
 
 }

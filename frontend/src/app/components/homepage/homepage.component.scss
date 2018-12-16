@@ -1,11 +1,12 @@
 @import '../../../styles.scss';
 
+
 .row{
  width: 75%;
  
  margin: 5rem auto;
  
- padding: 5rem 3rem;
+ padding: 5rem 0rem;
 
  
  mat-form-field{
@@ -86,5 +87,27 @@ mat-expansion-panel{
     margin: 1rem 0;
     width: 75%;
     border-radius: 12px;
+  }
+}
+
+.logout-container{
+  width: 75%;
+  margin: 2rem auto;
+  text-align: right;
+  // background-color: #000000;
+  .login-btn{
+    background-color: forestgreen;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all .3s;
+
+  }
+  .login-btn:hover{
+    transform: translateY(-2px);
+    transition: all .3s;
   }
 }

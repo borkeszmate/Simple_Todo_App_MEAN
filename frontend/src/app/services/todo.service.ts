@@ -28,7 +28,7 @@ export class TodoService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        authtoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJvcmtlc3ptYXRlQGdtYWlsLmNvbSIsImlhdCI6MTU0NDM4NDQ1NCwiZXhwIjoxNTQ0Mzg4MDU0fQ.ZtNeRSzKAzOkqRRmHfaI5EFDwfQPfDDjc9NsI9j-b4k'
+        authtoken: localStorage.getItem('MEAN_token')
       })
     };
     return this.http.post(`${this.apiUrl}/api/todos/posts`, formData, httpOptions);
