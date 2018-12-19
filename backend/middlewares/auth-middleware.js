@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
  
+ console.log(req);
  const token = req.headers.authtoken;
  
  // if (token === null | token === undefined ) {
@@ -14,6 +15,7 @@ module.exports = (req, res, next) => {
 
  try{
   jwt.verify(token, 'Bud_Asz_1992');
+  console.log('Sending response');
   res.status(202).json({
    isAuthenticated: true
   });
@@ -24,6 +26,6 @@ module.exports = (req, res, next) => {
    isAuthenticated: false
   });
  }
- next();
+
 
 }

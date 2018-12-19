@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 
 // Get users
 exports.getUsers = (req, res, next) => {
+  console.log('users');
  userSchema.find().then(users => console.log(users));
 
- console.log('users');
 }
 
 
@@ -65,6 +65,7 @@ exports.registerUser = (req, res, next) => {
 
 // Login user
 exports.loginUser = (req, res, next) => {
+  console.log(req);
  loginEmail = req.body.email;
  loginPassword = req.body.password;
  let hashedLoginPassword;
@@ -99,3 +100,24 @@ exports.loginUser = (req, res, next) => {
  });
 }
 
+
+// Check if authenticated
+
+
+exports.ifAuthenticated = (req, res, next) => {
+  
+  const token = req.headers.authtoken;
+  try {
+    jwt.verify(token, 'Bud_Asz_1992');
+    console.log('Sending response');
+    res.status(202).json({
+      isAuthenticated: true
+    });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(401).json({
+      isAuthenticated: false
+    });
+  }
+}

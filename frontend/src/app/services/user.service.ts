@@ -14,6 +14,7 @@ export class UserService {
 
   apiUrl = environment.http;
   private token: string;
+  private loggedIn = false;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -25,11 +26,18 @@ export class UserService {
     return this.token;
   }
 
+  getIsAuth() {
+    setTimeout(() => {
+      return this.loggedIn;
+    }, 100);
+  }
+
   loginUser(user) {
     this.http.post<any>(`${this.apiUrl}/api/user/login`, user).subscribe(response => {
       console.log(response.message);
       if (response.user) {
         localStorage.setItem('MEAN_token', response.user.token);
+        this.loggedIn = true;
         this.router.navigate(['']);
       }
     });
@@ -49,13 +57,15 @@ export class UserService {
         authtoken: localStorage.getItem('MEAN_token')
       })
     };
-    // console.log(token);
-    this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions).pipe(
-      map(res => {
-        return res.isAuthenticated;
-      })
-      );
+     console.log(`${this.apiUrl}/api/user/isAuthenticated`);
+    // this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions);
+     this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions).subscribe(res => {
+       this.loggedIn = res.isAuthenticated;
+      //  console.log(this.loggedIn);
+     });
+
   }
+
 
 
 }

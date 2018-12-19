@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthGuardService } from '../guards/auth-guard.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from '../components/homepage/homepage.component';
 import { RegisterComponent } from '../components/register/register.component';
 import { LoginComponent } from '../components/login/login.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomepageComponent },
@@ -19,6 +21,7 @@ const appRoutes: Routes = [
   ],
   exports: [
     RouterModule
-  ]
+  ],
+  // providers: [AuthGuardService]
 })
 export class RouterModuleModule { }

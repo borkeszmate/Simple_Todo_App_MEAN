@@ -32,7 +32,6 @@ export class HomepageComponent implements OnInit {
 
   todosTotalNum: number;
 
-  isLoggedIn = true;
 
   constructor(
     private todoService: TodoService,
@@ -40,8 +39,9 @@ export class HomepageComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-// Get existing todos
-  this.getTodos();
+    // Get existing todos
+    console.log(this.userService.getIsAuth());
+    this.getTodos();
 
 
 // Create form
@@ -124,7 +124,7 @@ export class HomepageComponent implements OnInit {
     //   console.log('nem');
 
     // }
-    this.userService.isAuthenticated();
+   console.log( this.userService.isAuthenticated());
   }
 
 }
