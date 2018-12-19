@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 // RoutesModule
 import { RouterModuleModule } from './router-module/router-module.module';
+import { AuthGuardService } from './guards/auth-guard.service';
 // Components
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -41,7 +42,6 @@ import { LoginComponent } from './components/login/login.component';
     HttpClientModule,
     MatExpansionModule,
     MatPaginatorModule
-
 
   ],
   providers: [],

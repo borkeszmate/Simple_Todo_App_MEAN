@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -14,6 +13,7 @@ export class UserService {
 
   apiUrl = environment.http;
   private token: string;
+  private isAuth = false;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -40,9 +40,6 @@ export class UserService {
   }
 
    isAuthenticated() {
-    const token = {
-      token: localStorage.getItem('MEAN_token')
-    };
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -50,11 +47,8 @@ export class UserService {
       })
     };
     // console.log(token);
-    this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions).pipe(
-      map(res => {
-        return res.isAuthenticated;
-      })
-      );
+    return this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions);
+    
   }
 
 
