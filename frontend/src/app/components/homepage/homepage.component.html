@@ -5,20 +5,20 @@
 </div>
 
 <div class="row">
-  
+
   <!-- Add todo form -->
-   
+
     <form [formGroup]="todoForm" class="form" enctype="multipart/form-data" >
-     
+
     <mat-form-field>
        <input matInput placeholder="Input" formControlName="todo">
     </mat-form-field>
-     
+
      <button mat-raised-button color="accent" (click)="filePicker.click()">
        Pick an image
      </button>
 
-     <input class="form__file"   type="file" #filePicker (change)="imageAdded($event)">
+     <input class="form__file"   type="file" #filePicker (change)="imageAdded($event)" multiple>
 
      <div class="form__img-preview" *ngIf="imgPreview !== undefined">
        <img [src]='imgPreview' alt="">
@@ -59,7 +59,7 @@
         </mat-panel-description>
 
       </mat-expansion-panel-header>
-      
+
       <div class="card-expanded">
         <div class="card-expanded__icon" (click)="deleteTodo(todo._id)">
           <i class="material-icons">

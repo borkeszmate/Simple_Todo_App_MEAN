@@ -27,9 +27,7 @@ export class UserService {
   }
 
   getIsAuth() {
-    setTimeout(() => {
       return this.loggedIn;
-    }, 100);
   }
 
   loginUser(user) {
@@ -57,11 +55,8 @@ export class UserService {
         authtoken: localStorage.getItem('MEAN_token')
       })
     };
-     console.log(`${this.apiUrl}/api/user/isAuthenticated`);
-    // this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions);
      this.http.post<any>(`${this.apiUrl}/api/user/isAuthenticated`, '', httpOptions).subscribe(res => {
        this.loggedIn = res.isAuthenticated;
-      //  console.log(this.loggedIn);
      });
 
   }
